@@ -29,16 +29,26 @@ func main() {
 		log.Println("Error during read body: ", err)
 	}
 
+	err = createAndWriteInFile(body)
+	if err != nil {
+		log.Println("Error create and write file: ", err)
+	}
+}
+
+func createAndWriteInFile(body []byte) error {
 	file, err := os.Create("cotacao.txt")
 	if err != nil {
 		log.Println("Error during create file: ", err)
+		return err
 	}
+	defer file.Close()
 
-	test := fmt.Sprint("Dólar: ", string(body))
+	writeFile := fmt.Sprint("Dólar: ", string(body))
 
-	_, err = file.Write([]byte(test))
+	_, err = file.Write([]byte(writeFile))
 	if err != nil {
 		log.Println("Error during write in file: ", err)
+		return err
 	}
-
+	return nil
 }
