@@ -130,7 +130,8 @@ func createTable(db *sql.DB) error {
 }
 
 func Insert(db *sql.DB, quotation *Usdbrl) error {
-	ctx, _ := context.WithTimeout(context.Background(), 100*time.Microsecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Microsecond)
+	defer cancel()
 	stmt, err := db.Prepare("INSERT INTO quotation (code, codein, name, high, low, varBid, pctChange, bid, ask, timestamp, createDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		log.Fatal(err)
