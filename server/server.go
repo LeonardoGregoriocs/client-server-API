@@ -43,6 +43,7 @@ func quotationHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Error connection DB: ", err)
 	}
+	defer connection.Close()
 
 	quotation, err := getQuotation(ctx)
 	if err != nil {
